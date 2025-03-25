@@ -1,4 +1,4 @@
-# Teste Prático para Engenheiro de IA - Nível Sênior
+# Teste Prático para Engenheiro de IA - Nível Pleno
 
 ## Contexto
 Uma rede de academias busca desenvolver uma plataforma inteligente de gestão que integre visão computacional, processamento de linguagem natural e análise preditiva para otimizar operações e melhorar a experiência dos clientes.
