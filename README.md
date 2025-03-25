@@ -79,3 +79,12 @@ Uma rede de academias busca desenvolver uma plataforma inteligente de gestão qu
 - Desenvolver uma estratégia de MLOps com monitoramento de drift e retraining automático
 - Implementar uma solução de A/B testing para features de IA
 - Criar dashboards interativos para gestores com insights de negócio
+
+## Instruções de Entrega
+1. Faça um fork deste repositório
+2. Desenvolva a solução em seu fork
+3. Crie um Pull Request para este repositório com sua solução
+4. Envie um email para rh@pactosolucoes.com.br contendo:
+   - Seu currículo
+   - Link do Pull Request criado
+   - Informações de contato
