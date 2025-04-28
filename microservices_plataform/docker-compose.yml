@@ -1,0 +1,24 @@
+services:
+  api_gateway:
+    build: ./services/api_gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - client_service
+      - analytics_service
+      - chatbot_service
+
+  client_service:
+    build: ./services/client_service
+    ports:
+      - "8001:8001"
+
+  analytics_service:
+    build: ./services/analytics_service
+    ports:
+      - "8002:8002"
+
+  chatbot_service:
+    build: ./services/chatbot_service
+    ports:
+      - "8003:8003"
