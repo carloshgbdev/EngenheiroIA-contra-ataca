@@ -12,6 +12,10 @@ services:
     build: ./services/client_service
     ports:
       - "8001:8001"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://carlos:12345@postgres:5432/pacto_academia
+    depends_on:
+      - postgres
 
   analytics_service:
     build: ./services/analytics_service
@@ -19,6 +23,22 @@ services:
       - "8002:8002"
 
   chatbot_service:
-    build: ./services/chatbot_service
+    build: ./services/chatbot_service 
     ports:
       - "8003:8003"
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: carlos
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: pacto_academia
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
