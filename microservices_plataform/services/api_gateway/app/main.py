@@ -3,9 +3,9 @@ import httpx
 
 app = FastAPI()
 
-client_service_url = "http://localhost:8001/v1/clients"
-analytics_service_url = "http://localhost:8002"
-chatbot_service_url = "http://localhost:8003"
+client_service_url = "http://client_service:8001/v1/clients"
+analytics_service_url = "http://analytics_service:8002"
+chatbot_service_url = "http://chatbot_service:8003"
 
 @app.get("/clientes")
 async def get_clientes():
