@@ -7,7 +7,7 @@ router = APIRouter()
 class Message(BaseModel):
     text: str
 
-@router.post("/converse")
-async def converse(message: Message):
+@router.post("/")
+async def talk(message: Message):
     response = process_conversation(message.text)
     return response

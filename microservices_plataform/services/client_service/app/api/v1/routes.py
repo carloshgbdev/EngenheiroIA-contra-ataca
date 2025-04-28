@@ -3,6 +3,6 @@ from app.service.client_crud import get_all_clients
 
 router = APIRouter()
 
-@router.get("/", tags=["Clients"])
+@router.get("/")
 def list_clients():
     return get_all_clients()

@@ -7,7 +7,7 @@ router = APIRouter()
 class Data(BaseModel):
     parameter: str
 
-@router.post("/prediction")
+@router.post("/")
 async def make_prediction(data: Data):
     prediction = generate_prediction(data.dict())
     return prediction

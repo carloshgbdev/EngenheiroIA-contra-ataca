@@ -4,4 +4,4 @@ from app.core.config import settings
 
 app = FastAPI(title=settings.PROJECT_NAME)
 
-app.include_router(client_router, prefix="/v1/clients")
+app.include_router(client_router, prefix="/v1/clients", tags=["Clients"])
