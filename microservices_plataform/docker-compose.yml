@@ -13,9 +13,14 @@ services:
     ports:
       - "8001:8001"
     environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: "carlos"
+      RABBITMQ_PASSWORD: "12345"
       DATABASE_URL: postgresql+asyncpg://carlos:12345@postgres:5432/pacto_academia
     depends_on:
       - postgres
+      - rabbitmq
 
   analytics_service:
     build: ./services/analytics_service
@@ -31,8 +36,26 @@ services:
     build: ./services/log_service
     ports:
       - "8004:8004"
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: "carlos"
+      RABBITMQ_PASSWORD: "12345"
+      MONGO_URL: "mongodb://carlos:12345@mongodb:27017/"
+      MONGO_DB_NAME: "logdb"
     depends_on:
       - mongodb
+      - rabbitmq
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: carlos
+      RABBITMQ_DEFAULT_PASS: 12345
 
   postgres:
     image: postgres:14

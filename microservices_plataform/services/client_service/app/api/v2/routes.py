@@ -4,7 +4,7 @@ from app.db import db
 from app.service import aluno_crud as service
 from app.schema.aluno import AlunoCreate, AlunoUpdate
 from app.schema.response import AlunoResponse, GenericResponse
-from app.util.log import register_log
+from app.service.publisher import publish_log_event as register_log
 
 router = APIRouter()
 
@@ -13,7 +13,7 @@ async def create_aluno(aluno: AlunoCreate, db: AsyncSession = Depends(db.get_db)
     try:
         create_response = await service.create_aluno(db=db, nome=aluno.nome, frequencia_semanal=aluno.frequencia_semanal, tipo_plano=aluno.tipo_plano)
         
-        await register_log(
+        register_log(
             action="Criação de Aluno",
             user_id= None,
             details=f"Aluno {create_response.nome} criado com ID {create_response.id}."
@@ -28,7 +28,7 @@ async def create_aluno(aluno: AlunoCreate, db: AsyncSession = Depends(db.get_db)
         
         return success_response
     except Exception as e:
-        await register_log(
+        register_log(
             action="Criação de Aluno",
             user_id= None,
             details=f"Houve uma tentativa não sucedida de criar um aluno."
@@ -48,7 +48,7 @@ async def read_alunos(skip: int = 0, limit: int = 100, db: AsyncSession = Depend
     try:
         alunos = await service.get_alunos(db=db, skip=skip, limit=limit)
         
-        await register_log(
+        register_log(
             action="GET de Alunos",
             user_id= None,
             details=f"Listagem de alunos realizada com sucesso."
@@ -63,7 +63,7 @@ async def read_alunos(skip: int = 0, limit: int = 100, db: AsyncSession = Depend
         
         return success_response
     except Exception as e:
-        await register_log(
+        register_log(
             action="GET de Alunos",
             user_id= None,
             details=f"Houve uma tentativa não sucedida de listar alunos."
@@ -84,7 +84,7 @@ async def read_aluno(aluno_id: int, db: AsyncSession = Depends(db.get_db)):
         aluno = await service.get_aluno(db=db, aluno_id=aluno_id)
         
         if aluno is None:
-            await register_log(
+            register_log(
                 action="GET de Aluno",
                 user_id= None,
                 details=f"Aluno não encontrado com ID {aluno_id}."
@@ -97,7 +97,7 @@ async def read_aluno(aluno_id: int, db: AsyncSession = Depends(db.get_db)):
                 data=None
             )
         
-        await register_log(
+        register_log(
             action="GET de Aluno",
             user_id= None,
             details=f"Aluno {aluno.nome} encontrado com ID {aluno.id}."
@@ -112,7 +112,7 @@ async def read_aluno(aluno_id: int, db: AsyncSession = Depends(db.get_db)):
         
         return success_response
     except Exception as e:
-        await register_log(
+        register_log(
             action="GET de Aluno",
             user_id= None,
             details=f"Houve uma tentativa não sucedida de buscar um aluno."
@@ -139,7 +139,7 @@ async def update_aluno(aluno_id: int, aluno: AlunoUpdate, db: AsyncSession = Dep
             ultimo_checkin_id=aluno.ultimo_checkin_id
         )
         
-        await register_log(
+        register_log(
             action="Atualização de Aluno",
             user_id= None,
             details=f"Aluno com ID {update_response.id} foi atualizado."
@@ -154,7 +154,7 @@ async def update_aluno(aluno_id: int, aluno: AlunoUpdate, db: AsyncSession = Dep
         
         return success_response
     except Exception as e:
-        await register_log(
+        register_log(
             action="Atualização de Aluno",
             user_id= None,
             details=f"Houve uma tentativa não sucedida de atualizar o aluno de ID {aluno_id}."
@@ -175,7 +175,7 @@ async def delete_aluno(aluno_id: int, db: AsyncSession = Depends(db.get_db)):
         delete_response = await service.delete_aluno(db=db, aluno_id=aluno_id)
         
         if delete_response is None:
-            await register_log(
+            register_log(
                 action="Remoção de Aluno",
                 user_id= None,
                 details=f"Aluno não encontrado com ID {aluno_id}."
@@ -188,7 +188,7 @@ async def delete_aluno(aluno_id: int, db: AsyncSession = Depends(db.get_db)):
                 data=None
             )
         
-        await register_log(
+        register_log(
             action="Remoção de Aluno",
             user_id= None,
             details=f"Aluno com ID {delete_response.id} foi deletado."
@@ -203,7 +203,7 @@ async def delete_aluno(aluno_id: int, db: AsyncSession = Depends(db.get_db)):
         
         return success_response
     except Exception as e:
-        await register_log(
+        register_log(
             action="Remoção de Aluno",
             user_id= None,
             details=f"Houve uma tentativa não sucedida de deletar o aluno de ID {aluno_id}."
