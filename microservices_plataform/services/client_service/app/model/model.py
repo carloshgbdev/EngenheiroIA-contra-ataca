@@ -13,10 +13,8 @@ class Aluno(Base):
     ultimo_checkin_id = Column(Integer, ForeignKey("checkins.id"), nullable=True)
     tipo_plano = Column(Integer, ForeignKey("planos.id"))
 
-    # Aqui é o último checkin (1:1)
     ultimo_checkin = relationship("Checkin", foreign_keys=[ultimo_checkin_id])
 
-    # Aqui são todos os checkins (1:N)
     checkins = relationship("Checkin", back_populates="aluno", foreign_keys="Checkin.aluno_id")
 
     plano = relationship("Plano", back_populates="alunos", foreign_keys=[tipo_plano])

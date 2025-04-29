@@ -11,7 +11,7 @@ class AlunoUpdate(BaseModel):
     frequencia_semanal: Optional[int] = None
     tipo_plano: Optional[int] = None
     ultimo_checkin_id: Optional[int] = None
-
+    
 class AlunoResponse(BaseModel):
     id: int
     nome: str

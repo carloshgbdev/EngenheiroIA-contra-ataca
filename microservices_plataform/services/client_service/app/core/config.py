@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Client Service"
-    API_VERSION: str = "v1"
+    API_VERSION: str = "v2"
 
     class Config:
         env_file = ".env"

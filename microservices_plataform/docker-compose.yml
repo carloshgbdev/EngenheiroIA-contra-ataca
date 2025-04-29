@@ -26,6 +26,14 @@ services:
     build: ./services/chatbot_service 
     ports:
       - "8003:8003"
+  
+  log_service:
+    build: ./services/log_service
+    ports:
+      - "8004:8004"
+    depends_on:
+      - mongodb
+
   postgres:
     image: postgres:14
     container_name: postgres
@@ -39,6 +47,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: carlos
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: logdb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
 volumes:
   postgres_data:
-
+  mongodb_data:
