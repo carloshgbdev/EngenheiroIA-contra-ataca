@@ -71,7 +71,7 @@ A documentação completa está disponível [neste arquivo separado](./API_DOC.m
 
 ## 7. Diagrama do BD PostgreSQL
 
-![Diagrama ERD](./assets/bd-diagram.png)
+![Diagrama ERD](./assets/bd_diagram.png)
 
 ## 8. Como Executar Localmente
 Pré-requisitos:
