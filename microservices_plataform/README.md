@@ -69,11 +69,11 @@ A documentação completa está disponível [neste arquivo separado](./API_DOC.m
 - **Framework**: Agente open-source Phi2, selecionado por seu equilíbrio entre desempenho e baixo consumo de recursos.
 - **Objetivo**: Oferecer atendimento automatizado e personalizado, mantendo a operação leve e eficiente, mesmo em ambientes com infraestrutura limitada.
 
-## 8. Diagrama do BD PostgreSQL
+## 7. Diagrama do BD PostgreSQL
 
 ![Diagrama ERD](./assets/bd-diagram.png)
 
-## 7. Como Executar Localmente
+## 8. Como Executar Localmente
 Pré-requisitos:
 - Docker e Docker Compose
 
