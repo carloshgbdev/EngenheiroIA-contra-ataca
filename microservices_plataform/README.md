@@ -73,7 +73,11 @@ A documentação completa está disponível [neste arquivo separado](./API_DOC.m
 
 ![Diagrama ERD](./assets/bd_diagram.png)
 
-## 8. Como Executar Localmente
+## 8. Demonstração do Sistema
+
+[Vídeo de Demonstração](https://drive.google.com/file/d/1OAaGae2JhwIgalD7FdHxViA3fbRsD3gB/view?usp=sharing)
+
+## 9. Como Executar Localmente
 Pré-requisitos:
 - Docker e Docker Compose
 
