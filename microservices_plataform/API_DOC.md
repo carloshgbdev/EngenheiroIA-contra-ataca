@@ -1,190 +1,203 @@
 # Gateway API
-Gateway central para comunicação entre microserviços
+API central para orquestração e comunicação entre os microserviços da plataforma de gestão de academias.
 
-## Version: 1.0.0
+**Versão:** 1.0.0
 
-### /cliente/alunos
+---
+
+## Endpoints
+
+### `/cliente/alunos`
 
 #### GET
-##### Summary:
+**Resumo:**  
+Retorna a lista completa de alunos cadastrados.
 
-List Alunos
+**Respostas:**
 
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
+| Código | Descrição                  |
+| ------ | -------------------------- |
+| 200    | Lista retornada com sucesso |
 
 #### POST
-##### Summary:
+**Resumo:**  
+Cadastra um novo aluno no sistema.
 
-Add Aluno
+**Respostas:**
 
-##### Responses
+| Código | Descrição                      |
+| ------ | ------------------------------ |
+| 200    | Aluno cadastrado com sucesso   |
+| 422    | Erro de validação nos dados    |
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
+---
 
-### /cliente/alunos/{aluno_id}
+### `/cliente/alunos/{aluno_id}`
 
 #### GET
-##### Summary:
+**Resumo:**  
+Consulta os detalhes de um aluno específico pelo seu ID.
 
-Get Aluno
+**Parâmetros:**
 
-##### Parameters
+| Nome     | Localização | Descrição         | Obrigatório | Tipo    |
+| -------- | ----------- | ----------------- | ----------- | ------- |
+| aluno_id | path        | ID único do aluno | Sim         | integer |
 
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| aluno_id | path |  | Yes | integer |
+**Respostas:**
 
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
+| Código | Descrição                               |
+| ------ | --------------------------------------- |
+| 200    | Dados do aluno retornados com sucesso   |
+| 422    | Erro de validação no parâmetro `aluno_id` |
 
 #### PUT
-##### Summary:
+**Resumo:**  
+Atualiza as informações de um aluno existente.
 
-Update Aluno
+**Parâmetros:**
 
-##### Parameters
+| Nome     | Localização | Descrição         | Obrigatório | Tipo    |
+| -------- | ----------- | ----------------- | ----------- | ------- |
+| aluno_id | path        | ID único do aluno | Sim         | integer |
 
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| aluno_id | path |  | Yes | integer |
+**Respostas:**
 
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
+| Código | Descrição                                  |
+| ------ | ------------------------------------------ |
+| 200    | Dados do aluno atualizados com sucesso     |
+| 422    | Erro de validação nos dados ou no `aluno_id` |
 
 #### DELETE
-##### Summary:
+**Resumo:**  
+Remove um aluno do sistema pelo ID.
 
-Delete Aluno
+**Parâmetros:**
 
-##### Parameters
+| Nome     | Localização | Descrição         | Obrigatório | Tipo    |
+| -------- | ----------- | ----------------- | ----------- | ------- |
+| aluno_id | path        | ID único do aluno | Sim         | integer |
 
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| aluno_id | path |  | Yes | integer |
+**Respostas:**
 
-##### Responses
+| Código | Descrição                          |
+| ------ | ---------------------------------- |
+| 200    | Aluno removido com sucesso         |
+| 422    | Erro de validação no parâmetro `aluno_id` |
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
+---
 
-### /churn/
-
-#### POST
-##### Summary:
-
-Make Prediction
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
-
-### /chatbot/
+### `/churn/`
 
 #### POST
-##### Summary:
+**Resumo:**  
+Realiza a previsão de churn (cancelamento) com base no perfil do aluno.
 
-Fitness Assistant
+**Respostas:**
 
-##### Responses
+| Código | Descrição                    |
+| ------ | ---------------------------- |
+| 200    | Previsão gerada com sucesso  |
+| 422    | Erro de validação nos dados  |
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
+---
 
-### Models
+### `/chatbot/`
 
+#### POST
+**Resumo:**  
+Assistente virtual para responder dúvidas relacionadas a treino e saúde com base no perfil do usuário.
 
-#### AlunoCreate
+**Respostas:**
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| nome | string |  | Yes |
-| frequencia_semanal | integer |  | Yes |
-| tipo_plano | integer |  | Yes |
+| Código | Descrição                    |
+| ------ | ---------------------------- |
+| 200    | Resposta gerada com sucesso  |
+| 422    | Erro de validação nos dados  |
 
-#### AlunoResponse
+---
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer |  | Yes |
-| nome | string |  | Yes |
-| frequencia_semanal | integer |  | Yes |
-| ultimo_checkin_id |  |  | No |
-| tipo_plano | integer |  | Yes |
+## Modelos
 
-#### AlunoUpdate
+### AlunoCreate
+Dados necessários para cadastrar um novo aluno.
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| nome |  |  | No |
-| frequencia_semanal |  |  | No |
-| tipo_plano |  |  | No |
-| ultimo_checkin_id |  |  | No |
+| Nome              | Tipo    | Obrigatório |
+| ----------------- | ------- | ----------- |
+| nome              | string  | Sim         |
+| frequencia_semanal| integer | Sim         |
+| tipo_plano        | integer | Sim         |
 
-#### ChurnInput
+### AlunoResponse
+Representação dos dados de um aluno.
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| frequencia_semanal | integer |  | Yes |
-| total_checkins | integer |  | Yes |
-| tipo_plano | integer |  | Yes |
+| Nome              | Tipo    | Obrigatório |
+| ----------------- | ------- | ----------- |
+| id                | integer | Sim         |
+| nome              | string  | Sim         |
+| frequencia_semanal| integer | Sim         |
+| ultimo_checkin_id |         | Não         |
+| tipo_plano        | integer | Sim         |
 
-#### FitnessQuery
+### AlunoUpdate
+Dados opcionais para atualizar informações de um aluno.
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| question | string |  | Yes |
-| user_profile | string |  | Yes |
+| Nome              | Tipo | Obrigatório |
+| ----------------- | ---- | ----------- |
+| nome              |      | Não         |
+| frequencia_semanal|      | Não         |
+| tipo_plano        |      | Não         |
+| ultimo_checkin_id |      | Não         |
 
-#### GenericResponse_AlunoResponse_
+### ChurnInput
+Informações necessárias para gerar uma previsão de churn.
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| success | boolean |  | Yes |
-| message | string |  | Yes |
-| status_code | integer |  | Yes |
-| data |  |  | No |
+| Nome              | Tipo    | Obrigatório |
+| ----------------- | ------- | ----------- |
+| frequencia_semanal| integer | Sim         |
+| total_checkins    | integer | Sim         |
+| tipo_plano        | integer | Sim         |
 
-#### GenericResponse_list_AlunoResponse__
+### FitnessQuery
+Consulta enviada para o assistente virtual.
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| success | boolean |  | Yes |
-| message | string |  | Yes |
-| status_code | integer |  | Yes |
-| data |  |  | No |
+| Nome         | Tipo   | Obrigatório |
+| ------------ | ------ | ----------- |
+| question     | string | Sim         |
+| user_profile | string | Sim         |
 
-#### HTTPValidationError
+### GenericResponse_AlunoResponse_
+Resposta genérica contendo os dados de um aluno.
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| detail | [ [ValidationError](#validationerror) ] |  | No |
+| Nome        | Tipo    | Obrigatório |
+| ----------- | ------- | ----------- |
+| success     | boolean | Sim         |
+| message     | string  | Sim         |
+| status_code | integer | Sim         |
+| data        |         | Não         |
 
-#### ValidationError
+### GenericResponse_list_AlunoResponse__
+Resposta genérica contendo uma lista de alunos.
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| loc | [  ] |  | Yes |
-| msg | string |  | Yes |
-| type | string |  | Yes |
+| Nome        | Tipo    | Obrigatório |
+| ----------- | ------- | ----------- |
+| success     | boolean | Sim         |
+| message     | string  | Sim         |
+| status_code | integer | Sim         |
+| data        |         | Não         |
+
+### HTTPValidationError
+Erro retornado em caso de falha na validação dos dados.
+
+| Nome   | Tipo                                   | Obrigatório |
+| ------ | -------------------------------------- | ----------- |
+| detail | Lista de [ValidationError](#validationerror) | Não         |
+
+### ValidationError
+Detalhes sobre um erro de validação.
+
+| Nome | Tipo  | Obrigatório |
+| ---- | ----- | ----------- |
+| loc  | Lista | Sim         |
+| msg  | string| Sim         |
+| type | string| Sim         |
