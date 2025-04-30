@@ -1,14 +1,13 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
+from app.service.consumer import run_consumer
+import asyncio
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("🌟 LIFESPAN STARTED 🌟")
+    loop = asyncio.get_event_loop()
+    loop.create_task(run_consumer())
     yield
-    print("🌙 LIFESPAN SHUTDOWN 🌙")
-
-
-print("Iniciando o aplicativo FastAPI...")
 
 app = FastAPI(
     title="Log Service",

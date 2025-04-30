@@ -1,13 +1,18 @@
 import json
-import aio_pika
-from app.core.rabbitmq import get_rabbitmq_connection
+import asyncio
+from aio_pika import IncomingMessage
+from aiormq.exceptions import AMQPConnectionError
+from app.core.rabbitmq import get_rabbitmq_channel
 from app.service.log_service import create_log
+import logging
 
-async def callback(message: aio_pika.IncomingMessage):
+logger = logging.getLogger("log_consumer")
+logger.setLevel(logging.INFO)
+
+async def callback(message: IncomingMessage):
     async with message.process():
         data = json.loads(message.body)
-        print(f"Foi recebido o evento de LOG: {data}")
-        
+        logger.info(f"recebido evento de LOG: {data}")
         await create_log(
             action=data['action'],
             user_id=data['user_id'],
@@ -15,10 +20,21 @@ async def callback(message: aio_pika.IncomingMessage):
         )
 
 async def start_consumer():
-    print("Iniciando consumidor...")
-    connection = await get_rabbitmq_connection()
-    channel = await connection.channel()
-    await channel.declare_queue("log_events", durable=True)
+    channel = await get_rabbitmq_channel()
+    logger.info("Consumidor de RabbitMQ iniciado com sucesso.")
+    queue = await channel.declare_queue('log_events', durable=True)
+    await queue.consume(callback)
+    await asyncio.Future()
 
-    await channel.basic_consume(callback, queue="log_events")
-    print("Consumidor pronto.")
+async def run_consumer():
+    connected = False
+    while not connected:
+        try:
+            await start_consumer()
+            connected = True
+        except AMQPConnectionError:
+            logger.warning("RabbitMQ indisponível, tentando novamente em 5s...")
+            await asyncio.sleep(5)
+        except Exception as e:
+            logger.exception("Erro inesperado no consumidor; reiniciando em 5s:")
+            await asyncio.sleep(5)

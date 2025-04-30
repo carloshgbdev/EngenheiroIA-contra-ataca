@@ -1,15 +1,10 @@
-import pika
+import aio_pika
 from app.core.config import settings
 
-def get_rabbitmq_channel():
-    credentials = pika.PlainCredentials(settings.RABBITMQ_USER, settings.RABBITMQ_PASSWORD)
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(
-            host=settings.RABBITMQ_HOST,
-            port=settings.RABBITMQ_PORT,
-            credentials=credentials
-        )
+async def get_rabbitmq_channel():
+    connection = await aio_pika.connect_robust(
+        f"amqp://{settings.RABBITMQ_USER}:{settings.RABBITMQ_PASSWORD}@{settings.RABBITMQ_HOST}:{settings.RABBITMQ_PORT}/"
     )
-    channel = connection.channel()
-    channel.queue_declare(queue="log_events", durable=True)
+    channel = await connection.channel()  
+    await channel.declare_queue("log_events", durable=True)  
     return channel
