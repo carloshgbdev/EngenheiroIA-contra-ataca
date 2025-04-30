@@ -48,7 +48,7 @@ WHERE NOT EXISTS (SELECT 1 FROM planos);
 DO $$
 DECLARE
   i INT := 1;
-  total_alunos INT := 100;
+  total_alunos INT := 10000;
   plano_id INT;
   new_aluno_id INT;
   checkin_id INT;

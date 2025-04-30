@@ -26,6 +26,8 @@ services:
     build: ./services/analytics_service
     ports:
       - "8002:8002"
+    volumes:
+      - ./data:/app/data
 
   chatbot_service:
     build: ./services/chatbot_service 
