@@ -69,6 +69,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./db/init_tables.sql:/docker-entrypoint-initdb.d/init_tables.sql
 
   mongodb:
     image: mongo:latest
