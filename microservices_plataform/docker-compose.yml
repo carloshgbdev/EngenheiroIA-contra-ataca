@@ -1,0 +1,89 @@
+services:
+  api_gateway:
+    build: ./services/api_gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - client_service
+      - analytics_service
+      - chatbot_service
+
+  client_service:
+    build: ./services/client_service
+    ports:
+      - "8001:8001"
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: "carlos"
+      RABBITMQ_PASSWORD: "12345"
+      DATABASE_URL: postgresql+asyncpg://carlos:12345@postgres:5432/pacto_academia
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  analytics_service:
+    build: ./services/analytics_service
+    ports:
+      - "8002:8002"
+
+  chatbot_service:
+    build: ./services/chatbot_service 
+    ports:
+      - "8003:8003"
+  
+  log_service:
+    build: ./services/log_service
+    ports:
+      - "8004:8004"
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: "carlos"
+      RABBITMQ_PASSWORD: "12345"
+      MONGO_URL: "mongodb://carlos:12345@mongodb:27017/"
+      MONGO_DB_NAME: "logdb"
+    depends_on:
+      - mongodb
+      - rabbitmq
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: carlos
+      RABBITMQ_DEFAULT_PASS: 12345
+
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: carlos
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: pacto_academia
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init_tables.sql:/docker-entrypoint-initdb.d/init_tables.sql
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: carlos
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: logdb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  postgres_data:
+  mongodb_data:
