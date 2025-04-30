@@ -1,13 +1,10 @@
 from fastapi import APIRouter
-from app.service.conversations import process_conversation
-from pydantic import BaseModel
+from app.service.fitness_service import get_fitness_response
+from app.schema.fitness_query import FitnessQuery
 
 router = APIRouter()
 
-class Message(BaseModel):
-    text: str
-
-@router.post("/")
-async def talk(message: Message):
-    response = process_conversation(message.text)
-    return response
+@router.post("/fitness-assistant")
+async def fitness_assistant(query: FitnessQuery):
+    answer = get_fitness_response(query.question, query.user_profile)
+    return {"response": answer}
