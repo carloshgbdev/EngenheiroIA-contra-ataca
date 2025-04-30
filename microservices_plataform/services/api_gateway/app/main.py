@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api.v1.routes_client import router as client_router
-# from app.api.v1.routes_analytics import router as analytics_router
+from app.api.v1.routes_analytics import router as analytics_router
 # from app.api.v1.routes_chatbot import router as chatbot_router
 
 app = FastAPI(
@@ -12,5 +12,5 @@ app = FastAPI(
 )
 
 app.include_router(client_router)
-# app.include_router(analytics_router)
+app.include_router(analytics_router)
 # app.include_router(chatbot_router)
